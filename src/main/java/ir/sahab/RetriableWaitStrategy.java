@@ -18,9 +18,17 @@ public class RetriableWaitStrategy extends AbstractWaitStrategy {
     private final RetriableWaitAction waitStrategy;
     private final String name;
 
-    public RetriableWaitStrategy(String name, RetriableWaitAction waitStrategy) {
+    private RetriableWaitStrategy(String name, RetriableWaitAction waitStrategy) {
         this.name = name;
         this.waitStrategy = waitStrategy;
+    }
+
+    /**
+     * A factory method to create this wait strategy. It is created, so we can have a more readable and user-friendlier
+     * interface to the outside world.
+     */
+    public static RetriableWaitStrategy retryAndWaitFor(String name, RetriableWaitAction waitStrategy) {
+        return new RetriableWaitStrategy(name, waitStrategy);
     }
 
     @Override

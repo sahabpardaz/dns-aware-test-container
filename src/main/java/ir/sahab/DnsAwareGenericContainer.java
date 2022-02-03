@@ -23,7 +23,7 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
     }
 
     public DnsAwareGenericContainer retryAndWaitFor(String name, RetriableWaitAction waitStrategy) {
-        return waitingFor(new RetriableWaitStrategy(name, waitStrategy));
+        return waitingFor(RetriableWaitStrategy.retryAndWaitFor(name, waitStrategy));
     }
 
     public DnsAwareGenericContainer withFixedExposedPorts(Integer... ports) {
