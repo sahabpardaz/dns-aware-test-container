@@ -1,4 +1,4 @@
-package ir.sahab;
+package ir.sahab.testcontainers;
 
 import com.alibaba.dcm.DnsCacheManipulator;
 import com.github.dockerjava.api.command.InspectContainerResponse;
@@ -35,18 +35,18 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
 
     /**
      * {@link GenericContainer#addFixedExposedPort} is not public in GenericContainer to discourage the usage of
-     * fixed port mapping in test containers. However, some images need fixed ports or using dynamic port mapping
-     * is so hard in some cases which may not be worthy. For this reason we make this method public here.
+     * fixed port mappings in test containers. However, some images need fixed ports to work or using dynamic
+     * port mapping is so hard in some cases which may not be worthy. For this reason we make this method public here.
      */
     public void withFixedExposedPort(int hostPort, int containerPort) {
         super.addFixedExposedPort(hostPort, containerPort);
     }
 
-    public String getContainerIp(InspectContainerResponse containerInfo) {
+    private static String getContainerIp(InspectContainerResponse containerInfo) {
         return containerInfo.getNetworkSettings().getNetworks().values().stream()
                 .map(ContainerNetwork::getIpAddress)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Container IP can't be detected."));
+                .orElseThrow(() -> new IllegalStateException("Couldn't retrieve container IP"));
     }
 
     public String getContainerIp() {

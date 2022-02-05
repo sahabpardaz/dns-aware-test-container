@@ -1,4 +1,4 @@
-package ir.sahab;
+package ir.sahab.testcontainers;
 
 import static org.junit.jupiter.api.Assertions.*;
 

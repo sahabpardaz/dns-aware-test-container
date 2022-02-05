@@ -1,17 +1,19 @@
 # DNS aware test container
 [![Tests](https://github.com/MSDehghan/DnsAwareTestContainer/actions/workflows/maven.yml/badge.svg)](https://github.com/MSDehghan/DnsAwareTestContainer/actions/workflows/maven.yml)
 
-[Testcontainers](https://www.testcontainers.org) is a very useful library which allows you to use containers in your
-tests. However, some applications and databases like Hadoop and HBase works by using DNS data. To use the container of 
-these applications you have to set the network of container to 'host' or change the DNS of your system to be
-compatible to these containers.
+[Testcontainers](https://www.testcontainers.org) is a useful library for using containerized applications within
+tests. However, some applications and databases like Hadoop and HBase may need specific hostname resolutions
+in order to work properly. This problem can sometimes be mitigated by setting the network mode of the containers
+to *host* or  make them visible by DNS, but generally it is better to use proper DNS data for host resolution.
 
-This library extends the GenericContainer from Testcontainers and adds the ability to change the Java DNS temporarily
-during the tests. With this library you are able to use applications that work by DNS easily without any manual
-settings or pollution of your computer DNS data.
+This library extends the GenericContainer from Testcontainers and adds the ability to manipulate the Java DNS cache
+temporarily during the tests. It adds the given hostname to Java DNS cache which will point to tht IP of the container.
+This eliminates the need to apply manual DNS settings on your physical machine and prevents the
+pollution of your system's DNS data.
 
 ## Sample Usage
-For example below we are using HBase database to create a new table in it. For more info please refer to tests.
+An example of using HBase inside a container based on `harisekhon/hbase:1.4` image using this library is shown below.
+You can see a test based on this container in class [DnsAwareGenericContainerTest](https://github.com/sahabpardaz/dns-aware-test-container/blob/main/src/test/java/ir/sahab/DnsAwareGenericContainerTest.java)
 
 ```java
 class HBaseTest {
@@ -31,9 +33,9 @@ class HBaseTest {
 }
 ```
 
-# Java9+ Usage
-This library is compatible to all java versions including 8,11,17. To use with java 9+ you must pass arguments 
-to your jvm:
+## Java version compatibility
+This library is compatible with all java versions including 8,11,17. To use with Java 9+ you must pass these arguments 
+to your JVM:
 ```shell
 --add-opens java.base/java.net=ALL-UNNAMED
 --add-opens java.base/sun.net=ALL-UNNAMED
