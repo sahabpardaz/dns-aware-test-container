@@ -42,17 +42,6 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
         super.addFixedExposedPort(hostPort, containerPort);
     }
 
-    private static String getContainerIp(InspectContainerResponse containerInfo) {
-        return containerInfo.getNetworkSettings().getNetworks().values().stream()
-                .map(ContainerNetwork::getIpAddress)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Couldn't retrieve container IP"));
-    }
-
-    public String getContainerIp() {
-        return getContainerIp(getContainerInfo());
-    }
-
     @Override
     protected void containerIsStarting(InspectContainerResponse containerInfo) {
         final String ip = getContainerIp(containerInfo);
@@ -64,6 +53,17 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
     protected void containerIsStopping(InspectContainerResponse containerInfo) {
         logger.info("Removing Hostname '{}' from JVM dns cache", hostName);
         DnsCacheManipulator.removeDnsCache(hostName);
+    }
+
+    public String getContainerIp() {
+        return getContainerIp(getContainerInfo());
+    }
+
+    private static String getContainerIp(InspectContainerResponse containerInfo) {
+        return containerInfo.getNetworkSettings().getNetworks().values().stream()
+                .map(ContainerNetwork::getIpAddress)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Couldn't retrieve container IP"));
     }
 
 }
