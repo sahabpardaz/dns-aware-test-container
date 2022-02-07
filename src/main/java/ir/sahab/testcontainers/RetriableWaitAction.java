@@ -1,4 +1,4 @@
-package ir.sahab;
+package ir.sahab.testcontainers;
 
 /**
  * Default wait strategy of Test-containers is not a functional interface and can't be provided with a simple lambda.

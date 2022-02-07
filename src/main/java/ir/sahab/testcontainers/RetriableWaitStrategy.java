@@ -1,4 +1,4 @@
-package ir.sahab;
+package ir.sahab.testcontainers;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
