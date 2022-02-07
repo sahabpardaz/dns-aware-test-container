@@ -1,5 +1,6 @@
 # DNS aware test container
-[![Tests](https://github.com/MSDehghan/DnsAwareTestContainer/actions/workflows/maven.yml/badge.svg)](https://github.com/MSDehghan/DnsAwareTestContainer/actions/workflows/maven.yml)
+[![Tests](https://github.com/sahabpardaz/dns-aware-test-container/actions/workflows/ci.yml/badge.svg)](https://github.com/sahabpardaz/dns-aware-test-container/actions/workflows/ci.yml)
+[![](https://jitpack.io/v/sahabpardaz/dns-aware-test-container.svg)](https://jitpack.io/#sahabpardaz/dns-aware-test-container)
 
 [Testcontainers](https://www.testcontainers.org) is a useful library for using containerized applications within
 tests. However, some applications and databases like Hadoop and HBase may need specific hostname resolutions
