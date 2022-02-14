@@ -11,6 +11,7 @@ import org.testcontainers.containers.GenericContainer;
  * Specific type of container which sets the given hostname to container IP address automatically in Java DNS cache.
  */
 public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericContainer> {
+
     private static final Logger logger = LoggerFactory.getLogger(DnsAwareGenericContainer.class);
 
     private final String hostName;
