@@ -7,5 +7,6 @@ package ir.sahab.testcontainers;
  */
 @FunctionalInterface
 public interface RetriableWaitAction {
+
     void waitForAction() throws Exception;
 }

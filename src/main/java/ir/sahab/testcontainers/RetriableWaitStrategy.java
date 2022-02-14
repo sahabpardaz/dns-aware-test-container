@@ -13,6 +13,7 @@ import org.testcontainers.containers.wait.strategy.AbstractWaitStrategy;
  * Wait strategy that retries and waits for a {@link RetriableWaitAction}.
  */
 public class RetriableWaitStrategy extends AbstractWaitStrategy {
+
     private static final Logger logger = LoggerFactory.getLogger(RetriableWaitStrategy.class);
 
     private final RetriableWaitAction waitStrategy;
@@ -36,15 +37,15 @@ public class RetriableWaitStrategy extends AbstractWaitStrategy {
         try {
             AtomicInteger attempts = new AtomicInteger(0);
             Unreliables.retryUntilSuccess((int) startupTimeout.toMillis(), TimeUnit.MILLISECONDS, () -> {
-                    getRateLimiter().doWhenReady(() -> {
-                        try {
-                            waitStrategy.waitForAction();
-                        } catch (Exception e) {
-                            logger.info("Waiting for '{}'. attempts: {}", name, attempts.incrementAndGet());
-                            logger.debug("Wait action of '{}' failed.", name, e);
-                            throw new RuntimeException("Wait action failed.", e);
-                        }
-                    });
+                getRateLimiter().doWhenReady(() -> {
+                    try {
+                        waitStrategy.waitForAction();
+                    } catch (Exception e) {
+                        logger.info("Waiting for '{}'. attempts: {}", name, attempts.incrementAndGet());
+                        logger.debug("Wait action of '{}' failed.", name, e);
+                        throw new RuntimeException("Wait action failed.", e);
+                    }
+                });
                 return null; // Nothing should be returned here.
             });
         } catch (TimeoutException e) {

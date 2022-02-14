@@ -55,7 +55,7 @@ class DnsAwareGenericContainerTest {
             hbaseAdmin.createTable(new HTableDescriptor(tableName).addFamily(new HColumnDescriptor(COLUMN_FAMILY)));
             assertTrue(hbaseAdmin.tableExists(tableName));
 
-            try(Table table = connection.getTable(tableName)) {
+            try (Table table = connection.getTable(tableName)) {
                 for (int i = 1; i < 20; i++) {
                     byte[] bytes = Bytes.toBytes(i);
                     table.put(new Put(bytes).addColumn(COLUMN_FAMILY, QUALIFIER, bytes));
@@ -80,7 +80,8 @@ class DnsAwareGenericContainerTest {
             assertDoesNotThrow(urlConnection::connect, "Can't connect to fixed master port with localhost");
             assertEquals(200, urlConnection.getResponseCode());
 
-            urlConnection = (HttpURLConnection) new URL("http://localhost:" + container.getMappedPort(16030)).openConnection();
+            urlConnection = (HttpURLConnection) new URL("http://localhost:" + container.getMappedPort(16030))
+                    .openConnection();
             assertDoesNotThrow(urlConnection::connect, "Can't connect to mapped region-server port with localhost");
             assertEquals(200, urlConnection.getResponseCode());
 

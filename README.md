@@ -14,7 +14,7 @@ pollution of your system's DNS data.
 
 ## Sample Usage
 An example of using HBase inside a container based on `harisekhon/hbase:1.4` image using this library is shown below.
-You can see a test based on this container in class [DnsAwareGenericContainerTest](https://github.com/sahabpardaz/dns-aware-test-container/blob/main/src/test/java/ir/sahab/DnsAwareGenericContainerTest.java)
+You can see a test based on this container in class [DnsAwareGenericContainerTest](https://github.com/sahabpardaz/dns-aware-test-container/blob/main/src/test/java/ir/sahab/testcontainers/DnsAwareGenericContainerTest.java)
 
 ```java
 class HBaseTest {
