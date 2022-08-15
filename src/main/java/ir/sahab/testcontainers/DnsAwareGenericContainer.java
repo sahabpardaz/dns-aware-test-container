@@ -5,6 +5,7 @@ import com.github.dockerjava.api.command.InspectContainerResponse;
 import com.github.dockerjava.api.model.ContainerNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 
 /**
@@ -58,6 +59,13 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
 
     public String getContainerIp() {
         return getContainerIp(getContainerInfo());
+    }
+
+    /**
+     * Simple utility method to extract the container IP.
+     */
+    public static String getContainerIp(Container<?> container) {
+        return getContainerIp(container.getContainerInfo());
     }
 
     private static String getContainerIp(InspectContainerResponse containerInfo) {
