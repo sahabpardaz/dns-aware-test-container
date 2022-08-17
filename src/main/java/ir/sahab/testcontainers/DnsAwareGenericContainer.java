@@ -2,10 +2,8 @@ package ir.sahab.testcontainers;
 
 import com.alibaba.dcm.DnsCacheManipulator;
 import com.github.dockerjava.api.command.InspectContainerResponse;
-import com.github.dockerjava.api.model.ContainerNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 
 /**
@@ -46,9 +44,7 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
 
     @Override
     protected void containerIsStarting(InspectContainerResponse containerInfo) {
-        final String ip = getContainerIp(containerInfo);
-        logger.info("Setting Hostname '{}' to container IP '{}' in JVM dns cache", hostName, ip);
-        DnsCacheManipulator.setDnsCache(hostName, ip);
+        ContainerNetworkUtils.addContainerDns(hostName, this);
     }
 
     @Override
@@ -58,21 +54,7 @@ public class DnsAwareGenericContainer extends GenericContainer<DnsAwareGenericCo
     }
 
     public String getContainerIp() {
-        return getContainerIp(getContainerInfo());
-    }
-
-    /**
-     * Simple utility method to extract the container IP.
-     */
-    public static String getContainerIp(Container<?> container) {
-        return getContainerIp(container.getContainerInfo());
-    }
-
-    private static String getContainerIp(InspectContainerResponse containerInfo) {
-        return containerInfo.getNetworkSettings().getNetworks().values().stream()
-                .map(ContainerNetwork::getIpAddress)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Couldn't retrieve container IP"));
+        return ContainerNetworkUtils.getContainerIp(this);
     }
 
 }
